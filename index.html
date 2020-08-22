@@ -1,0 +1,31 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" type="image/png" href="https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+  <meta name="apple-mobile-web-app-title" content="CodePen">
+  <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+  <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+  
+    <title>Money WoW</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">  
+    
+    <link rel="stylesheet" href="style.css">
+
+  
+  </head>
+  
+  <body translate="no">
+    <template data-template="calculatorbutton">
+    <div class="Calculator-button" v-bind:class="className"><span v-bind:class="['btest', button.icon ? button.icon : '']" v-if="button.children == null" v-text="button.text" @click.stop="emitAction($event, button)"></span><span v-for="childButton in button.children" v-bind:class="[childButton.className || ' btest ', 'btest']" v-text="childButton.text" @click.stop="emitAction($event, childButton)"></span></div>
+  </template>
+  <div class="App js-app" style="opacity: 1;"><div class="Calculator"><header class="Calculator-header"><div class="Calculator-expressions"><span class="Calculator-expressionsOverflow"></span><span class="Calculator-expressionsList"> 5 + 7 - 45 + 3 + 177 -</span></div> <div class="Calculator-operands"><span class="Calculator-currentOperand" style="font-size: 60px; font-weight: 200;">147</span></div></header> <div class="Calculator-body"><div class="Calculator-buttonsContainer"><div class="Calculator-button  Calculator-button--clear "><span class="btest">C</span></div><div class="Calculator-button  Calculator-button--negation "><span class="btest">+/-</span></div><div class="Calculator-button  Calculator-button--modulo "><span class="btest">%</span></div><div class="Calculator-button  Calculator-button--square "><span class="btest">√</span></div><div class="Calculator-button"><span class="btest">7</span></div><div class="Calculator-button"><span class="btest">8</span></div><div class="Calculator-button"><span class="btest">9</span></div><div class="Calculator-button  Calculator-button--division "><span class="btest">/</span></div><div class="Calculator-button"><span class="btest">4</span></div><div class="Calculator-button"><span class="btest">5</span></div><div class="Calculator-button"><span class="btest">6</span></div><div class="Calculator-button  Calculator-button--multiplication "><span class="btest ion-ios-close-empty"></span></div><div class="Calculator-button"><span class="btest">1</span></div><div class="Calculator-button"><span class="btest">2</span></div><div class="Calculator-button"><span class="btest">3</span></div><div class="Calculator-button  Calculator-button--subtraction "><span class="btest ion-ios-minus-empty"></span></div><div class="Calculator-button"><span class="btest">0</span></div><div class="Calculator-button  has-children  Calculator-button--paren "><!----><span class="open-paren btest">(</span><span class="close-paren btest">)</span></div><div class="Calculator-button"><span class="btest">.</span></div><div class="Calculator-button  Calculator-button--addition "><span class="btest ion-ios-plus-empty"></span></div></div></div> <div class="Calculator-equals"><div class="Calculator-equalsLine"></div> <div class="Calculator-equalsLine"></div></div></div></div>
+ 
+
+  
+  
+  
+  
+   
+  </body></html>
