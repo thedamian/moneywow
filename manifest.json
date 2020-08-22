@@ -2,17 +2,17 @@
     "name": "MoneyWOW",
     "short_name": "Money",
     "icons": [{
-        "src": "./moneywow/icons/icon-192x192.png",
+        "src": "./icons/icon-192x192.png",
         "sizes": "192x192",
         "type": "image/png"
       },
       {
-        "src": "./moneywow/icons/icon-512x512.png",
+        "src": "./icons/icon-512x512.png",
         "sizes": "512x512",
         "type": "image/png"
       }
     ],
-    "start_url": "./moneywow/index.html",
+    "start_url": "./index.html",
     "display": "fullscreen",
     "background_color": "#575F64",
     "theme_color": "#EE7370"
