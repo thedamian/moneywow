@@ -46,7 +46,7 @@ body {
   width: 260px;
 }
 
-.Calculator-header {
+.TotalHeader {
   background: white;
   overflow: hidden;
   padding: 20px 20px;
@@ -54,7 +54,7 @@ body {
   text-align: right;
 }
 
-.Calculator-expressions {
+.EntryListContainer {
   color: rgba(158, 158, 158, 0.76);
   display: block;
   float: right;
@@ -69,7 +69,7 @@ body {
   height: 60px;
 }
 
-.Calculator-expressionsList {
+.EntryListContainerList {
   display: block;
   float: right;
 }
@@ -97,7 +97,7 @@ body {
 .Calculator__expressionsOverflow.is-showing {
   opacity: 1;
 }
-.Calculator-operands {
+.TotalContainer {
   color: #151515;
   font-size: 60px;
   font-weight: 200;
@@ -105,7 +105,7 @@ body {
   clear: both;
 }
 
-.Calculator-currentOperand {
+.CurrentTotal {
   display: block;
   overflow: visible;
   min-height: 60px;
@@ -116,7 +116,7 @@ body {
   -webkit-transition-property: font-size;
   transition-property: font-size;
 }
-.Calculator-currentOperand.has-error {
+.CurrentTotal.has-error {
   color: #ef5334;
 }
 
@@ -236,7 +236,7 @@ body {
   cursor: default;
 }
 
-.Calculator-equals {
+.MonthlyTotal {
   background-color: #FF8D4B;
   background-image: -webkit-gradient(linear,left top, right top,from(#FF8D4B), to(#FF542E));
   background-image: linear-gradient(to right,#FF8D4B, #FF542E);
@@ -246,7 +246,7 @@ body {
   z-index: -1;
 }
 
-.Calculator-equalsLine {
+.MonthlyTotalLine {
   color:white;
   font-size: 2em;
   display: block;
@@ -254,6 +254,6 @@ body {
   width: 20px;
 }
 
-.Calculator-equalsLine:last-child {
+.MonthlyTotalLine:last-child {
   margin-bottom: 0;
 }
