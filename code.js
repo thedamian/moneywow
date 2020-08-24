@@ -57,5 +57,6 @@ for (let i=0;i< calculatorbuttons.length; i++) {
         }); 
 }
 
-
-    
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+};
