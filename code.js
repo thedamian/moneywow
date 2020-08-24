@@ -30,14 +30,16 @@ for (let i=0;i< calculatorbuttons.length; i++) {
                 case "ADD":
                         if (currentTotal > 0)
                         {
-                            MonthlyTotal += currentTotal;
-                            let newEntry = today + " - $" + currentTotal + ".00<BR>";
+                            // update today 
+                            today = t.getMonth()+1 + "/" + t.getDate() + "/" + t.getFullYear();
+                            MonthlyTotal += currentTotal; // add new value to monthly Total
+                            let newEntry = today + " - $" + currentTotal + ".00<BR>"; // new entry inthe list
                             EntryListDiv.innerHTML += newEntry
                             EntryList += newEntry
-                            localStorage.setItem("EntryList", EntryList);
+                            localStorage.setItem("EntryList", EntryList); // Save entryList for next reload
                             EntryListContainer.scrollTop = EntryListContainer.scrollHeight; // Scroll the list to the bottoms
                             MonthlyTotalDiv.innerHTML = "$" + MonthlyTotal + ".00";
-                            localStorage.setItem("MonthlyTotal", MonthlyTotal);
+                            localStorage.setItem("MonthlyTotal", MonthlyTotal); // save you total
                             currentTotal = 0;
                             currentTotalDiv.innerHTML = "$0.00";
                         }
