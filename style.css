@@ -25,9 +25,7 @@ body {
 }
 
 .App {
-  opacity: 0;
-  -webkit-transition: opacity 0.3s;
-  transition: opacity 0.3s;
+  opacity: 1;
 }
 
 .Calculator {
@@ -54,11 +52,11 @@ body {
   text-align: right;
 }
 
-.EntryListContainer {
+.EntryListContainer, .EntryListContainer {
   color: rgba(158, 158, 158, 0.76);
   display: block;
   float: right;
-  font-size: 15px;
+  font-size: 20px;
   line-height: 22px;
   min-height: 22px;
   position: relative;
@@ -67,6 +65,11 @@ body {
   word-wrap: normal;
   overflow-x: auto;
   height: 60px;
+}
+
+a {
+  color: rgba(158, 158, 158, 0.76);
+  text-decoration: none;
 }
 
 .EntryListContainerList {
@@ -256,4 +259,23 @@ body {
 
 .MonthlyTotalLine:last-child {
   margin-bottom: 0;
+}
+
+/* animation */
+.Calculator-body {
+  height: 250px;
+  transition:height 0.3s ease-out; 
+}
+.Calculator-body.shrink {
+  height:0px;
+  transition:height 0.3s ease-out; 
+}
+
+.EntryListContainer {
+  height: 50px;
+  transition:height 0.3s ease-out; 
+}
+.EntryListContainer.grow {
+  height: 300px;
+  transition:height 0.3s ease-out; 
 }

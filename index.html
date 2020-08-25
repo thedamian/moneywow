@@ -17,11 +17,7 @@
     <link rel="apple-touch-icon" href="icons/icon-152x152.png">
     <meta name="msapplication-TileImage" content="icons/icon-144x144.png">
     <meta name="msapplication-TileColor" content="#EE7370"></head>
-    <link rel="shortcut icon" type="image/x-icon" href="icons/icon-32x32.ico">
-
-
-
-
+    <link rel="shortcut icon" type="image/x-icon" href="icons/icon-32x32.png">
 
 
 
@@ -40,7 +36,7 @@
       <span v-bind:class="['btest', button.icon ? button.icon : '']" v-if="button.children == null" v-text="button.text" @click.stop="emitAction($event, button)"></span>
       <span v-for="childButton in button.children" v-bind:class="[childButton.className || ' btest ', 'btest']" v-text="childButton.text" @click.stop="emitAction($event, childButton)"></span></div>
   </template>
-  <div class="App js-app" style="opacity: 1;">
+  <div class="App js-app">
     <div class="Calculator">
       <header class="TotalHeader">
         <div class="EntryListContainer">
@@ -101,7 +97,7 @@
         </div>
       </div> 
     <div class="MonthlyTotal">
-      <div class="MonthlyTotalLine">$0.00</div> 
+      <div class="MonthlyTotalLine">$0</div> 
     </div>
   </div>
 </div>
