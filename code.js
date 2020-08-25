@@ -22,7 +22,12 @@ let CurrentMonthSaved  = Number(getStorage("CurrentMonthSaved",thisMonth));
 // Entry List
 let EntryList = getStorage("EntryList",JSON.stringify([]));
 console.log("EntryList",EntryList)
+try {
 EntryList = JSON.parse(EntryList);
+} catch (exp) {
+  // some old versions have text here instead of an array.
+  EntryList = [];
+}
 
 // get DOM References
 let currentTotalDiv = document.getElementsByClassName("CurrentTotal")[0];
