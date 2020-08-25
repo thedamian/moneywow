@@ -75,11 +75,14 @@ let deleteFromEntryList = (value,entryIndex) => {
     PopulateEntryList();
 
     // Now Update the totals
-
+    console.log("MonthlyTotal",MonthlyTotal);
+    
     let EntryAmount = Number(value.split("$")[1]);  // Entry looks like "8/24/2020 - $2"
+    console.log("EntryAmount",EntryAmount);
     MonthlyTotal -= EntryAmount; // add new value to monthly Total
     MonthlyTotalDiv.innerHTML = "$" + MonthlyTotal; // Update total
     localStorage.setItem("MonthlyTotal", MonthlyTotal); // save you total
+    console.log("MonthlyTotal",MonthlyTotal);
 
   };
   return true;
