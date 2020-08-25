@@ -1,7 +1,12 @@
 // Basic Storage Function
 let getStorage = (StorageName,DefaultValue) => {
   let storageValue = localStorage.getItem(StorageName);
-  if (storageValue) {
+  if (!isNaN(DefaultValue)) {
+    if (!isNaN(storageValue)) {
+      StorageName = DefaultValue;
+    }
+  }
+  if (storageValue ) {
     return storageValue;
   } else {
     localStorage.setItem(StorageName, DefaultValue);
@@ -21,7 +26,7 @@ let LastMonthTotal = Number(getStorage("LastMonthTotal",0));
 let CurrentMonthSaved  = Number(getStorage("CurrentMonthSaved",thisMonth));
 // Entry List
 let EntryList = getStorage("EntryList",JSON.stringify([]));
-console.log("EntryList",EntryList)
+//console.log("EntryList",EntryList)
 try {
 EntryList = JSON.parse(EntryList);
 } catch (exp) {
@@ -40,7 +45,7 @@ let TotalHeader = document.getElementsByClassName("TotalHeader")[0];
 //EntryList Methods
 let AddEntryList = (newEntry)=> {
   EntryList.push(newEntry);
- console.log("saving",EntryList)
+ //console.log("saving",EntryList)
   localStorage.setItem("EntryList", JSON.stringify(EntryList));
   PopulateEntryList();
 };
@@ -59,14 +64,23 @@ let PopulateEntryList = (isDelete) => {
 };
 
 let deleteFromEntryList = (value,entryIndex) => {
+  if (!value.includes("<BR>---<BR>"))
   if (confirm("Delete " + value + "?"))  {
-    console.log("Confirm yes")
+   // console.log("Confirm yes")
     let i=-1;
-    console.log("EntryList",EntryList);
+    //console.log("EntryList",EntryList);
     EntryList = EntryList.filter(x => {i++; return i != entryIndex; });
-    console.log("EntryList",EntryList);
+    //console.log("EntryList",EntryList);
     localStorage.setItem("EntryList", JSON.stringify(EntryList));
     PopulateEntryList();
+
+    // Now Update the totals
+
+    let EntryAmount = Number(value.split("$")[1]);  // Entry looks like "8/24/2020 - $2"
+    MonthlyTotal -= EntryAmount; // add new value to monthly Total
+    MonthlyTotalDiv.innerHTML = "$" + MonthlyTotal; // Update total
+    localStorage.setItem("MonthlyTotal", MonthlyTotal); // save you total
+
   };
   return true;
 }
