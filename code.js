@@ -24,7 +24,6 @@ let currentTotal = 0; // Our running total
 let MonthlyTotal = Number(getStorage("MonthlyTotal", 0));
 let LastMonthTotal = Number(getStorage("LastMonthTotal", 0));
 let CurrentMonthSaved = Number(getStorage("CurrentMonthSaved", thisMonth));
-CurrentMonthSaved = CurrentMonthSaved-1;
 // Entry List
 let EntryList = getStorage("EntryList", JSON.stringify([]));
 //console.log("EntryList",EntryList)
