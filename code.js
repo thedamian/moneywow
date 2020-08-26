@@ -1,12 +1,12 @@
 // Basic Storage Function
 let getStorage = (StorageName, DefaultValue) => {
     let storageValue = localStorage.getItem(StorageName);
-    if (!isNaN(DefaultValue)) {
-        if (!isNaN(storageValue)) {
-            StorageName = DefaultValue;
-        }
+    if (!isNaN(DefaultValue) && isNaN(storageValue)) {
+        // If we expected a number but we got something else
+        localStorage.setItem(StorageName, DefaultValue); // then overwrite what we have in storage
+        return DefaultValue;
     }
-    if (storageValue) {
+    if (storageValue) { // we got something back.
         return storageValue;
     } else {
         localStorage.setItem(StorageName, DefaultValue);
@@ -24,6 +24,7 @@ let currentTotal = 0; // Our running total
 let MonthlyTotal = Number(getStorage("MonthlyTotal", 0));
 let LastMonthTotal = Number(getStorage("LastMonthTotal", 0));
 let CurrentMonthSaved = Number(getStorage("CurrentMonthSaved", thisMonth));
+CurrentMonthSaved = CurrentMonthSaved-1;
 // Entry List
 let EntryList = getStorage("EntryList", JSON.stringify([]));
 //console.log("EntryList",EntryList)
@@ -50,21 +51,24 @@ let AddEntryList = (newEntry) => {
     PopulateEntryList();
 };
 let PopulateEntryList = (isDelete) => {
-    EntryListDiv.innerHTML = "";
+    EntryListDiv.innerHTML = ""; 
     let i = 0;
     EntryList.map(entry => {
-        if (isDelete) {
-            EntryListDiv.innerHTML += `<a href="#" onclick="return deleteFromEntryList('${entry.date} - $${entry.amount}','${i}')" >${entry.date} - $${entry.amount}<ion-icon name="close-circle-outline">❌</ion-icon></a><BR><BR>`;
-            i++;
+        if (isDelete && !entry.isTotal) {
+            EntryListDiv.innerHTML += `<a href="#" onclick="return deleteFromEntryList('${entry.date} - $${entry.amount}','${i}')" >${entry.date} - $${entry.amount}<ion-icon name="close-circle-outline">❌</ion-icon></a><BR>`;
         } else {
             EntryListDiv.innerHTML += `${entry.date} - $${entry.amount}<BR />`;
         }
+        if (isDelete) {
+            i++;
+            EntryListDiv.innerHTML += `<BR />`;
+        }
+
     });
     setTimeout(() => { EntryListContainer.scrollTop = EntryListContainer.scrollHeight; }, 300); // Scroll the list to the bottom
 };
 
 let deleteFromEntryList = (value, entryIndex) => {
-    if (!value.includes("<BR>---<BR>"))
         if (confirm("Delete " + value + "?")) {
             // console.log("Confirm yes")
             let i = -1;
@@ -83,7 +87,6 @@ let deleteFromEntryList = (value, entryIndex) => {
             MonthlyTotalDiv.innerHTML = "$" + MonthlyTotal; // Update total
             localStorage.setItem("MonthlyTotal", MonthlyTotal); // save you total
             console.log("MonthlyTotal", MonthlyTotal);
-
         };
     return true;
 }
@@ -101,7 +104,11 @@ if (CurrentMonthSaved != thisMonth) {
 
     // Add new month line
     let lastMonth = thisMonth > 1 ? (thisMonth - 1) : 12; // last month is always month -1 unless it's january (then it's Dec.)
-    let newEntry = monthNames[lastMonth] + "'s Total: $" + LastMonthTotal + "<BR>---<BR>"; // new entry inthe list
+    let newEntry = {
+        date: monthNames[lastMonth] + "'s Total:",
+        amount: LastMonthTotal,
+        isTotal: true
+    }; // new entry in the list
     AddEntryList(newEntry); // Add last month's total to our log
 
 }
@@ -143,8 +150,9 @@ for (let i = 0; i < calculatorbuttons.length; i++) {
                     MonthlyTotal += currentTotal; // add new value to monthly Total
                     let newEntry = {
                         date: today,
-                        amount: currentTotal
-                    }; // new entry inthe list
+                        amount: currentTotal,
+                        isTotal: false
+                    }; // new entry in the list
                     AddEntryList(newEntry);
                     MonthlyTotalDiv.innerHTML = "$" + MonthlyTotal; // Update total
                     localStorage.setItem("MonthlyTotal", MonthlyTotal); // save you total
@@ -167,5 +175,5 @@ for (let i = 0; i < calculatorbuttons.length; i++) {
 
 // cache all files to make them available "offline"
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
+    //navigator.serviceWorker.register('sw.js');
 };
