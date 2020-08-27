@@ -174,5 +174,5 @@ for (let i = 0; i < calculatorbuttons.length; i++) {
 
 // cache all files to make them available "offline"
 if ('serviceWorker' in navigator) {
-    //navigator.serviceWorker.register('sw.js');
+    navigator.serviceWorker.register('sw.js');
 };
