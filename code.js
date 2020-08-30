@@ -88,27 +88,32 @@ let deleteFromEntryList = (value, entryIndex) => {
     return true;
 }
 
+let CheckIfNewMonth = () => {
+    t = new Date();
+    thisMonth = t.getMonth() + 1;
+    if (CurrentMonthSaved != thisMonth) {
+        // New month! Copy the monthly total to "LastMonthTotal" and start from scratch.
+        console.log("new month!")
+        LastMonthTotal = MonthlyTotal; // Update LastMonth's with what we had before
+        MonthlyTotal = 0; // reset our monthly total
 
-if (CurrentMonthSaved != thisMonth) {
-    // New month! Copy the monthly total to "LastMonthTotal" and start from scratch.
-    console.log("new month!")
-    LastMonthTotal = MonthlyTotal; // Update LastMonth's with what we had before
-    MonthlyTotal = 0; // reset our monthly total
+        localStorage.setItem("LastMonthTotal", LastMonthTotal); // save Last Month Updated for future functionality
+        localStorage.setItem("CurrentMonthSaved", thisMonth); // save new month
+        localStorage.setItem("MonthlyTotal", MonthlyTotal); // save our new monthly total
 
-    localStorage.setItem("LastMonthTotal", LastMonthTotal); // save Last Month Updated for future functionality
-    localStorage.setItem("CurrentMonthSaved", thisMonth); // save new month
-    localStorage.setItem("MonthlyTotal", MonthlyTotal); // save our new monthly total
+        // Add new month line
+        let lastMonth = thisMonth > 1 ? (thisMonth - 1) : 12; // last month is always month -1 unless it's january (then it's Dec.)
+        let newEntry = {
+            date: monthNames[lastMonth] + "'s Total:",
+            amount: LastMonthTotal,
+            isTotal: true
+        }; // new entry in the list
+        AddEntryList(newEntry); // Add last month's total to our log
 
-    // Add new month line
-    let lastMonth = thisMonth > 1 ? (thisMonth - 1) : 12; // last month is always month -1 unless it's january (then it's Dec.)
-    let newEntry = {
-        date: monthNames[lastMonth] + "'s Total:",
-        amount: LastMonthTotal,
-        isTotal: true
-    }; // new entry in the list
-    AddEntryList(newEntry); // Add last month's total to our log
-
+    }
 }
+
+CheckIfNewMonth(); // Check if new month.
 
 let LogIsBig = false;
 // Expand and retract history
@@ -167,7 +172,14 @@ let CancelAdd = CancelAdd => {
     return false;
 }
 
+DescriptionDiv.addEventListener("keyup", e => {
+    if (e.key === 'Enter' || e.keyCode === 13) {
+        AddEntryDescription();
+    }
+});
+
 let AddEntryDescription = () =>  {
+    CheckIfNewMonth();
     let Description = DescriptionDiv.value.trim();
     console.log("description", Description);
     if (Description.trim() == '') {
