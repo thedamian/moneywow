@@ -41,6 +41,8 @@ let CalculatorBody = document.getElementsByClassName("Calculator-body")[0];
 let EntryListContainer = document.getElementsByClassName("EntryListContainer")[0];
 let EntryListDiv = document.getElementsByClassName("EntryList")[0];
 let TotalHeader = document.getElementsByClassName("TotalHeader")[0];
+let AskDetails = document.getElementById("AskDetails");
+let DescriptionDiv = document.getElementById("description");
 
 //EntryList Methods
 let AddEntryList = (newEntry) => {
@@ -54,9 +56,9 @@ let PopulateEntryList = (isDelete) => {
     let i = 0;
     EntryList.map(entry => {
         if (isDelete && !entry.isTotal) {
-            EntryListDiv.innerHTML += `<a href="#" onclick="return deleteFromEntryList('${entry.date} - $${entry.amount}','${i}')" >${entry.date} - $${entry.amount}<ion-icon name="close-circle-outline">❌</ion-icon></a><BR>`;
+            EntryListDiv.innerHTML += `<div onclick="return deleteFromEntryList('${entry.date} - ${entry.description ? entry.description.replace("'","")+' - ': ''} $${entry.amount}','${i}')"><span>${entry.description ? entry.description+'<BR />': ''} ${entry.date} - $${entry.amount} ✖️</div>`;
         } else {
-            EntryListDiv.innerHTML += `${entry.date} - $${entry.amount}<BR />`;
+            EntryListDiv.innerHTML += `${entry.date} - ${entry.description ? entry.description+' - ': ''} $${entry.amount}<BR />`;
         }
         if (isDelete) {
             i++;
@@ -77,12 +79,8 @@ let deleteFromEntryList = (value, entryIndex) => {
             localStorage.setItem("EntryList", JSON.stringify(EntryList));
             PopulateEntryList();
 
-            // Now Update the totals
-            console.log("MonthlyTotal", MonthlyTotal);
-
             let EntryAmount = Number(value.split("$")[1]);  // Entry looks like "8/24/2020 - $2"
-            console.log("EntryAmount", EntryAmount);
-            MonthlyTotal -= EntryAmount; // add new value to monthly Total
+            MonthlyTotal = Number(Number(MonthlyTotal) - Number(EntryAmount)).toFixed(2); // add new value to monthly Total
             MonthlyTotalDiv.innerHTML = "$" + MonthlyTotal; // Update total
             localStorage.setItem("MonthlyTotal", MonthlyTotal); // save you total
             console.log("MonthlyTotal", MonthlyTotal);
@@ -145,18 +143,9 @@ for (let i = 0; i < calculatorbuttons.length; i++) {
         switch (ButtonPressed) {
             case "ADD":
                 if (currentTotal > 0) {
-                    today = t.getMonth() + 1 + "/" + t.getDate() + "/" + t.getFullYear(); // update today
-                    MonthlyTotal += currentTotal; // add new value to monthly Total
-                    let newEntry = {
-                        date: today,
-                        amount: currentTotal,
-                        isTotal: false
-                    }; // new entry in the list
-                    AddEntryList(newEntry);
-                    MonthlyTotalDiv.innerHTML = "$" + MonthlyTotal; // Update total
-                    localStorage.setItem("MonthlyTotal", MonthlyTotal); // save you total
-                    currentTotal = 0; // Our amount to enter is now reset
-                    currentTotalDiv.innerHTML = "$0"; // Update the resetted Amount to enter.
+                    // Cool! Now ask for a description
+                    AskDetails.style.display='Flex';
+                    DescriptionDiv.focus();
                 }
                 break;
             case "C":
@@ -164,13 +153,44 @@ for (let i = 0; i < calculatorbuttons.length; i++) {
                 currentTotalDiv.innerHTML = "$0"; // reset our UI
                 break;
             default: // Digital 0-9
-                currentTotal = currentTotal * 10 + Number(ButtonPressed);
-                currentTotalDiv.innerHTML = "$" + currentTotal;
+                currentTotal = (currentTotal * 10 + 0.01 * Number(ButtonPressed)).toFixed(2);
+                currentTotalDiv.innerHTML = `$${currentTotal}`;
                 break;
         }
 
     });
 }
+
+let CancelAdd = CancelAdd => {
+    DescriptionDiv.value = "";
+    AskDetails.style.display='none';
+    return false;
+}
+
+let AddEntryDescription = () =>  {
+    let Description = DescriptionDiv.value.trim();
+    console.log("description", Description);
+    if (Description.trim() == '') {
+        Description = null;
+    }
+    today = t.getMonth() + 1 + "/" + t.getDate() + "/" + t.getFullYear(); // update today
+    MonthlyTotal = (Number(MonthlyTotal ) + Number(currentTotal)).toFixed(2);; // add new value to monthly Total
+    console.log(MonthlyTotal);
+    let newEntry = {
+        date: today,
+        description: Description,
+        amount: currentTotal,
+        isTotal: false
+    }; // new entry in the list
+    AddEntryList(newEntry);
+    MonthlyTotalDiv.innerHTML = "$" + MonthlyTotal; // Update total
+    localStorage.setItem("MonthlyTotal", MonthlyTotal); // save you total
+    currentTotal = 0; // Our amount to enter is now reset
+    currentTotalDiv.innerHTML = "$0"; // Update the resetted Amount to enter.
+    DescriptionDiv.value = "";
+    AskDetails.style.display='none';
+    return false;
+};
 
 // cache all files to make them available "offline"
 if ('serviceWorker' in navigator) {
