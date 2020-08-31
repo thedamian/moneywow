@@ -7,7 +7,7 @@ It's solving a simple issue of a budget. You add it it throughout the month and 
 
 It's very important for people without internet on their phone's to be able to use it outside without any internet once they've downloaded the app and saved it on their home screen.
 
-Example page: https://thedamian.github.io/moneywow/
+Example page: https://MoneyWOW.app (yeah. not .com, but .app it's new!)
 
 <BR>
 
