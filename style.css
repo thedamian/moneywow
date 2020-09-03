@@ -68,6 +68,7 @@ body {
   height: 60px;
 }
 
+/*
 a {
   color: rgba(158, 158, 158, 0.76);
   text-decoration: none;
@@ -101,6 +102,9 @@ a {
 .Calculator__expressionsOverflow.is-showing {
   opacity: 1;
 }
+*/
+
+
 .TotalContainer {
   color: #151515;
   font-size: 60px;
@@ -123,9 +127,9 @@ a {
   transition-property: font-size;
 }
 
-.CurrentTotal.has-error {
+/* .CurrentTotal.has-error {
   color: #ef5334;
-}
+} */
 
 .Calculator-body {
   background: white;
@@ -177,15 +181,19 @@ a {
 .Calculator-button:active, .Calculator-button.is-active {
   box-shadow: inset 0 3px 15px 0 rgba(0, 0, 0, 0.3);
 }
+
+/*
 .Calculator-button.has-children:hover, .Calculator-button.has-children:active {
   background: initial;
   box-shadow: none;
   cursor: default;
 }
+*/
 .Calculator-button > span {
   display: block;
 }
 
+/*
 .Calculator-button--negation,
 .Calculator-button--modulo {
   font-size: 18px;
@@ -242,7 +250,7 @@ a {
   box-shadow: none;
   cursor: default;
 }
-
+*/
 .MonthlyTotal {
   background-color: #FF8D4B;
   background-image: -webkit-gradient(linear,left top, right top,from(#FF8D4B), to(#FF542E));
@@ -349,11 +357,13 @@ a {
 	}
 }
 
+/*
 .modalclose-topright {
 	position: absolute;
 	right: 0;
 	top: 0;
 }
+*/
 
 input {
   padding: 10px 0;
@@ -379,9 +389,11 @@ label {
   font-size: 16px;
 }
 
+/*
 .xright {
   height:100%;
   right:0;
 }
+*/
 
 /* modal */
