@@ -103,6 +103,7 @@ let CheckIfNewMonth = () => {
 
         // Add new month line
         let lastMonth = thisMonth > 1 ? (thisMonth - 1) : 12; // last month is always month -1 unless it's january (then it's Dec.)
+        lastMonth--; // silly man. Arrays start at zero! duh!;
         let newEntry = {
             date: monthNames[lastMonth] + "'s Total:",
             amount: LastMonthTotal,
