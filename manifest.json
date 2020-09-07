@@ -19,7 +19,7 @@
       "purpose": "maskable"
     }
   ],
-  "start_url": "/moneywow",
+  "start_url": "/",
   "display": "fullscreen",
   "background_color": "#575F64",
   "theme_color": "#EE7370"
