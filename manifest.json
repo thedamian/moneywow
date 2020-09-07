@@ -3,25 +3,23 @@
   "short_name": "MoneyWOW",
   "icons": [
     {
-      "src": "/icons/icon_192x192.png",
+      "src": "icons/icon_192x192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/png"
     },
     {
-      "src": "/icons/icon-512x512.png",
+      "src": "icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/png"
     },
     {
-      "src": "/icons/maskable_icon-512x512.png",
+      "src": "icons/maskable_icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
   ],
-  "start_url": "/",
+  "start_url": "/moneywow",
   "display": "fullscreen",
   "background_color": "#575F64",
   "theme_color": "#EE7370"
