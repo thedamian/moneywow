@@ -43,6 +43,7 @@ let EntryListDiv = document.getElementsByClassName("EntryList")[0];
 let TotalHeader = document.getElementsByClassName("TotalHeader")[0];
 let AskDetails = document.getElementById("AskDetails");
 let DescriptionDiv = document.getElementById("description");
+let DownloadButton = document.getElementById("download");
 
 //EntryList Methods
 let AddEntryList = (newEntry) => {
@@ -204,6 +205,40 @@ let AddEntryDescription = () =>  {
     AskDetails.style.display='none';
     return false;
 };
+
+let downloadEntries = (EntryList) => {
+    let filteredEntries = EntryList.filter(entry => !entry.isTotal)
+    let columnDelimiter = ",";
+    let lineDelimiter = "\n";
+    
+    let keys = ["date", "description", "amount"]
+    let csvHeaders = "data:text/csv;charset=utf-8," + keys.join(columnDelimiter) + lineDelimiter;
+    
+    let csv = filteredEntries.reduce((acc, entry) => {
+        ctr = 0;
+        keys.forEach(function (key) {
+            if (ctr > 0) acc += columnDelimiter;
+    
+            acc += entry[key] || "";
+            ctr++;
+        });
+        return acc += lineDelimiter;
+    }, csvHeaders)
+    
+    let encodedCSV = encodeURI(csv);
+    let filename = `MoneyWoW.csv`
+
+    link = document.createElement("a");
+    link.setAttribute("href", encodedCSV);
+    link.setAttribute("download", filename);
+    link.click();
+}
+
+DownloadButton.addEventListener('click', () => {
+    downloadEntries(EntryList)
+})
+
+
 
 // cache all files to make them available "offline"
 if ('serviceWorker' in navigator) {
