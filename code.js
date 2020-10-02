@@ -1,3 +1,5 @@
+const APP_VERSION = "1.0.1"
+
 // Basic Storage Function
 let getStorage = (StorageName, DefaultValue) => {
     let storageValue = localStorage.getItem(StorageName);
@@ -15,6 +17,7 @@ let getStorage = (StorageName, DefaultValue) => {
 }
 
 // constants
+
 let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 let t = new Date();
 let thisMonth = t.getMonth() + 1;
@@ -238,6 +241,17 @@ DownloadButton.addEventListener('click', () => {
     downloadEntries(EntryList)
 })
 
+//version check
+let userVersion = getStorage('version', APP_VERSION)
+if (userVersion != APP_VERSION) {
+    alert("There are new features available ✨. Click ok to save your transactions and reset the app")
+    downloadEntries(EntryList)
+    localStorage.removeItem("MonthlyTotal");
+    localStorage.removeItem("LastMonthTotal");
+    localStorage.removeItem("CurrentMonthSaved");
+    localStorage.removeItem("EntryList");
+    localStorage.setItem("version", APP_VERSION )
+}
 
 
 // cache all files to make them available "offline"
