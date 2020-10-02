@@ -21,12 +21,12 @@ let thisMonth = t.getMonth() + 1;
 let today = thisMonth + "/" + t.getDate() + "/" + t.getFullYear();
 let currentTotal = 0; // Our running total
 // Get some stored values
-let MonthlyTotal = Number(getStorage("MonthlyTotal", 0));
+let MonthlyTotal = 0; 
 let LastMonthTotal = Number(getStorage("LastMonthTotal", 0));
 let CurrentMonthSaved = Number(getStorage("CurrentMonthSaved", thisMonth));
 // Entry List
 let EntryList = getStorage("EntryList", JSON.stringify([]));
-//console.log("EntryList",EntryList)
+
 try {
     EntryList = JSON.parse(EntryList);
 } catch (exp) {
@@ -53,20 +53,46 @@ let AddEntryList = (newEntry) => {
     PopulateEntryList();
 };
 let PopulateEntryList = (isDelete) => {
+    MonthlyTotal = 0; // Reset MonthlyTotals
+    let today = new Date();
     EntryListDiv.innerHTML = ""; 
     let i = 0;
+    let ProcessedMonth = -1;
+    let LastMonthsTotal =0;
     EntryList.map(entry => {
-        if (isDelete && !entry.isTotal) {
-            EntryListDiv.innerHTML += `<div onclick="return deleteFromEntryList('${entry.date} - ${entry.description ? entry.description.replace("'","")+' - ': ''} $${entry.amount}','${i}')"><span>${entry.description ? entry.description+'<BR />': ''} ${entry.date} - $${entry.amount} ✖️</div>`;
-        } else {
-            EntryListDiv.innerHTML += `${entry.date} - ${entry.description ? entry.description+' - ': ''} $${entry.amount}<BR />`;
+        if (!entry.isTotal) { // Ignore old totals. We don't do that any more.
+
+            let EntryDate = new Date(entry.date);
+
+            
+            if (ProcessedMonth != EntryDate.getMonth()) {
+                if (ProcessedMonth != -1 ) // If it's not the first
+                {
+                    EntryListDiv.innerHTML += ` ${monthNames[ProcessedMonth]}'s Total: $${Number(LastMonthsTotal).toFixed(2)}<BR /><BR />`;
+                    LastMonthsTotal = 0;
+                }  
+                ProcessedMonth = EntryDate.getMonth();
+            }
+            LastMonthsTotal += Number(entry.amount);
+
+            // Get Monthly Total
+            if (EntryDate.getMonth() == today.getMonth()){
+                MonthlyTotal += Number(entry.amount);
+            }
+
+            if (isDelete) {
+                EntryListDiv.innerHTML += `<div onclick="return deleteFromEntryList('${entry.date} - ${entry.description ? entry.description.replace("'","")+' - ': ''} $${entry.amount}','${i}')"><span>${entry.description ? entry.description+'<BR />': ''} ${EntryDate.getMonth()+1}/${EntryDate.getDate()} - $${entry.amount} ✖️</div><BR />`;
+            } else {
+                EntryListDiv.innerHTML += `${EntryDate.getMonth()+1}/${EntryDate.getDate()} - ${entry.description ? entry.description+' - ': ''} $${entry.amount}<BR />`;
+            }
+
+
         }
-        if (isDelete) {
-            i++;
-            EntryListDiv.innerHTML += `<BR />`;
-        }
+        i++;
 
     });
+    MonthlyTotal = Number(MonthlyTotal).toFixed(2); // add new value to monthly Total
+    MonthlyTotalDiv.innerHTML = "$" + MonthlyTotal; // Update total
     setTimeout(() => { EntryListContainer.scrollTop = EntryListContainer.scrollHeight; }, 300); // Scroll the list to the bottom
 };
 
@@ -83,39 +109,10 @@ let deleteFromEntryList = (value, entryIndex) => {
             let EntryAmount = Number(value.split("$")[1]);  // Entry looks like "8/24/2020 - $2"
             MonthlyTotal = Number(Number(MonthlyTotal) - Number(EntryAmount)).toFixed(2); // add new value to monthly Total
             MonthlyTotalDiv.innerHTML = "$" + MonthlyTotal; // Update total
-            localStorage.setItem("MonthlyTotal", MonthlyTotal); // save you total
-            console.log("MonthlyTotal", MonthlyTotal);
         };
     return true;
 }
 
-let CheckIfNewMonth = () => {
-    t = new Date();
-    thisMonth = t.getMonth() + 1;
-    if (CurrentMonthSaved != thisMonth) {
-        // New month! Copy the monthly total to "LastMonthTotal" and start from scratch.
-        console.log("new month!")
-        LastMonthTotal = MonthlyTotal; // Update LastMonth's with what we had before
-        MonthlyTotal = 0; // reset our monthly total
-
-        localStorage.setItem("LastMonthTotal", LastMonthTotal); // save Last Month Updated for future functionality
-        localStorage.setItem("CurrentMonthSaved", thisMonth); // save new month
-        localStorage.setItem("MonthlyTotal", MonthlyTotal); // save our new monthly total
-
-        // Add new month line
-        let lastMonth = thisMonth > 1 ? (thisMonth - 1) : 12; // last month is always month -1 unless it's january (then it's Dec.)
-        lastMonth--; // silly man. Arrays start at zero! duh!;
-        let newEntry = {
-            date: monthNames[lastMonth] + "'s Total:",
-            amount: LastMonthTotal,
-            isTotal: true
-        }; // new entry in the list
-        AddEntryList(newEntry); // Add last month's total to our log
-
-    }
-}
-
-CheckIfNewMonth(); // Check if new month.
 
 let LogIsBig = false;
 // Expand and retract history
@@ -134,8 +131,7 @@ EntryListContainer.addEventListener("click", () => {
         EntryListContainer.scrollTop = EntryListContainer.scrollHeight;
     }
     LogIsBig = !LogIsBig;
-})
-
+});
 
 // Update the UI
 MonthlyTotalDiv.innerHTML = "$" + MonthlyTotal; //  + ".00";
@@ -181,7 +177,6 @@ DescriptionDiv.addEventListener("keyup", e => {
 });
 
 let AddEntryDescription = () =>  {
-    CheckIfNewMonth();
     let Description = DescriptionDiv.value.trim();
     console.log("description", Description);
     if (Description.trim() == '') {
@@ -198,7 +193,6 @@ let AddEntryDescription = () =>  {
     }; // new entry in the list
     AddEntryList(newEntry);
     MonthlyTotalDiv.innerHTML = "$" + MonthlyTotal; // Update total
-    localStorage.setItem("MonthlyTotal", MonthlyTotal); // save you total
     currentTotal = 0; // Our amount to enter is now reset
     currentTotalDiv.innerHTML = "$0"; // Update the resetted Amount to enter.
     DescriptionDiv.value = "";
@@ -226,7 +220,8 @@ let downloadEntries = (EntryList) => {
     }, csvHeaders)
     
     let encodedCSV = encodeURI(csv);
-    let filename = `MoneyWoW.csv`
+    today = t.getMonth() + 1 + "/" + t.getDate() + "/" + t.getFullYear(); // update today
+    let filename = `MoneyWoW-${today}.csv`;
 
     link = document.createElement("a");
     link.setAttribute("href", encodedCSV);
