@@ -91,10 +91,14 @@ let PopulateEntryList = (isDelete) => {
         i++;
 
     });
-    MonthlyTotal = Number(MonthlyTotal).toFixed(2); // add new value to monthly Total
+    MonthlyTotal = currencyFormat(Number(MonthlyTotal)); // add new value to monthly Total
     MonthlyTotalDiv.innerHTML = "$" + MonthlyTotal; // Update total
     setTimeout(() => { EntryListContainer.scrollTop = EntryListContainer.scrollHeight; }, 300); // Scroll the list to the bottom
 };
+
+let currencyFormat = num => {
+  return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
 
 let deleteFromEntryList = (value, entryIndex) => {
         if (confirm("Delete " + value + "?")) {
@@ -107,8 +111,8 @@ let deleteFromEntryList = (value, entryIndex) => {
             PopulateEntryList();
 
             let EntryAmount = Number(value.split("$")[1]);  // Entry looks like "8/24/2020 - $2"
-            MonthlyTotal = Number(Number(MonthlyTotal) - Number(EntryAmount)).toFixed(2); // add new value to monthly Total
-            MonthlyTotalDiv.innerHTML = "$" + MonthlyTotal; // Update total
+            MonthlyTotal = Number(Number(MonthlyTotal) - Number(EntryAmount)); // add new value to monthly Total
+            MonthlyTotalDiv.innerHTML = "$" + currencyFormat(MonthlyTotal); // Update total
         };
     return true;
 }
