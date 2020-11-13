@@ -230,11 +230,11 @@ let downloadEntries = (EntryList) => {
     const fileToShare = new File( [csvContent], filename, {type: "text/csv" });
 
 
-    if (navigator.canShare && navigator.canShare({ files: filesArray })) {
+    if (navigator.canShare && navigator.canShare({ files: [fileToShare] })) {
         navigator.share({
           files: [fileToSharefileToShare],
-          title: 'MoneyWOW Backup',
-          text: 'Backup of Money WOW for ${today}',
+          title: `MoneyWOW for ${today}`,
+          text: `Backup of Money WOW for ${today}`,
         })
         .then(() => console.log('Share was successful.'))
         .catch((error) => console.log('Sharing failed', error));
