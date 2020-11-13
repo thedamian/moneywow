@@ -212,7 +212,7 @@ let downloadEntries = (EntryList) => {
     let keys = ["date", "description", "amount"]
     let csvHeaders = "data:text/csv;charset=utf-8," + keys.join(columnDelimiter) + lineDelimiter;
     
-    let csv = filteredEntries.reduce((acc, entry) => {
+    let csvContent = filteredEntries.reduce((acc, entry) => {
         ctr = 0;
         keys.forEach(function (key) {
             if (ctr > 0) acc += columnDelimiter;
@@ -223,14 +223,34 @@ let downloadEntries = (EntryList) => {
         return acc += lineDelimiter;
     }, csvHeaders)
     
-    let encodedCSV = encodeURI(csv);
+    let encodedCSV = encodeURI(csvContent);
     today = t.getMonth() + 1 + "/" + t.getDate() + "/" + t.getFullYear(); // update today
     let filename = `MoneyWoW-${today}.csv`;
+
+    const fileToShare = new File( [csvContent], filename, {type: "text/csv" });
+
+
+    if (navigator.canShare && navigator.canShare({ files: filesArray })) {
+        navigator.share({
+          files: [fileToSharefileToShare],
+          title: 'MoneyWOW Backup',
+          text: 'Backup of Money WOW for ${today}',
+        })
+        .then(() => console.log('Share was successful.'))
+        .catch((error) => console.log('Sharing failed', error));
+      } else {
+        console.log(`Your system doesn't support sharing files.`);
+      }
+
+    /*
+
+
 
     link = document.createElement("a");
     link.setAttribute("href", encodedCSV);
     link.setAttribute("download", filename);
     link.click();
+    */
 }
 
 DownloadButton.addEventListener('click', () => {
