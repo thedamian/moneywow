@@ -239,18 +239,13 @@ let downloadEntries = (EntryList) => {
         .then(() => console.log('Share was successful.'))
         .catch((error) => console.log('Sharing failed', error));
       } else {
-        console.log(`Your system doesn't support sharing files.`);
+        console.log(`Your system doesn't support sharing files. BUT you can download the file!`);
+        link = document.createElement("a");
+        link.setAttribute("href", encodedCSV);
+        link.setAttribute("download", filename);
+        link.click();
       }
 
-    /*
-
-
-
-    link = document.createElement("a");
-    link.setAttribute("href", encodedCSV);
-    link.setAttribute("download", filename);
-    link.click();
-    */
 }
 
 DownloadButton.addEventListener('click', () => {
