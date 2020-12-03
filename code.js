@@ -117,16 +117,36 @@ let deleteFromEntryList = (value, entryIndex) => {
     return true;
 }
 
-
 let LogIsBig = false;
+// click inside
+document.addEventListener('click',e => {
+  const isOutside = !e.target.closest('.EntryList');
+  console.log(`You Clicked ${isOutside ? 'Outside':'Inside'}`);
+        if (isOutside) {
+            console.log("Shurnk")
+            PopulateEntryList();
+            CalculatorBody.classList.remove("shrink");
+            EntryListContainer.classList.remove("grow");
+            EntryListContainer.scrollTop = EntryListContainer.scrollHeight;
+            LogIsBig = true;
+        } else {
+            if (!LogIsBig) {
+                console.log("Grow")
+                PopulateEntryList(true);
+                CalculatorBody.classList.add("shrink");
+                EntryListContainer.classList.add("grow");
+                EntryListContainer.scrollTop = EntryListContainer.scrollHeight;
+                LogIsBig = false;
+            }
+        }
+});
+
+
+
 // Expand and retract history
 EntryListContainer.addEventListener("click", () => {
     if (LogIsBig) {
-        console.log("Shrink")
-        PopulateEntryList();
-        CalculatorBody.classList.remove("shrink");
-        EntryListContainer.classList.remove("grow");
-        EntryListContainer.scrollTop = EntryListContainer.scrollHeight;
+        
     } else {
         console.log("Grow")
         PopulateEntryList(true);
