@@ -250,21 +250,21 @@ let downloadEntries = (EntryList) => {
     const fileToShare = new File( [csvContent], filename, {type: "text/csv" });
 
 
-    if (navigator.canShare && navigator.canShare({ files: [fileToShare] })) {
-        navigator.share({
-          files: [fileToSharefileToShare],
-          title: `MoneyWOW for ${today}`,
-          text: `Backup of Money WOW for ${today}`,
-        })
-        .then(() => console.log('Share was successful.'))
-        .catch((error) => console.log('Sharing failed', error));
-      } else {
+    // if (navigator.canShare && navigator.canShare({ files: [fileToShare] })) {
+    //     navigator.share({
+    //       files: [fileToSharefileToShare],
+    //       title: `MoneyWOW for ${today}`,
+    //       text: `Backup of Money WOW for ${today}`,
+    //     })
+    //     .then(() => console.log('Share was successful.'))
+    //     .catch((error) => console.log('Sharing failed', error));
+    //   } else {
         console.log(`Your system doesn't support sharing files. BUT you can download the file!`);
         link = document.createElement("a");
         link.setAttribute("href", encodedCSV);
         link.setAttribute("download", filename);
         link.click();
-      }
+    //  }
 
 }
 
