@@ -1,14 +1,14 @@
  {
-    "platform": "Money WOW",
-    "name": "money4",
-    "description": "it's money wow. but on the blockchain man! AGAIN!",
-    "external_url": "https://moneywow.app",
+    "platform": "Drum WOW",
+    "name": "DrumWow1",
+    "description": "It's a drum machine! WOW!",
+    "external_url": "https://damiandrum.surge.sh",
     "collection_name": "MoneyWOW",
     "attributes": [],
-    "animation_url": "https://moneywow.app",
-    "image": "https://avatars.githubusercontent.com/u/2957660?v=4",
+    "animation_url": "https://damiandrum.surge.sh",
+    "image": "https://damiandrum.surge.sh/static/drum.png",
     "interactive_nft": {
-      "code_uri": "https://moneywow.app",
+      "code_uri": "https://damiandrum.surge.sh",
       "version": "1.0"
     }
   }
