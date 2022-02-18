@@ -1,0 +1,14 @@
+ {
+    "platform": "Money WOW",
+    "name": "money3",
+    "description": "it's money wow. but on the blockchain man!",
+    "external_url": "https://moneywow.app",
+    "collection_name": "MoneyWOW",
+    "attributes": [],
+    "animation_url": "https://avatars.githubusercontent.com/u/2957660?v=4",
+    "image": "https://avatars.githubusercontent.com/u/2957660?v=4",
+    "interactive_nft": {
+      "code_uri": "https://moneywow.app",
+      "version": "1.0"
+    }
+  }
