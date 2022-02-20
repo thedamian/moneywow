@@ -1,0 +1,8 @@
+{
+  "name": "MoneyWOW Collection",
+  "description": "You like Money! You like WOW! then you'll love this collection",
+  "image": "https://moneywow.app/screenshot.png",
+  "external_link": "https://moneywow.app",
+  "seller_fee_basis_points": 100,
+  "fee_recipient": "0x79A4105C64548aABffB53d555F3441f0b2f3Dd03" # Where seller fees will be paid to.
+}
