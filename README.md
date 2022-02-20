@@ -2,7 +2,7 @@
 
 ## Description
 This is a PWA App that tries to be online, full screen and never saves to a server (but it's totals are always available even after you close and open it)
-
+<img src="https://raw.githubusercontent.com/thedamian/moneywow/master/screenshot.png">
 It's solving a simple issue of a budget. You add it it throughout the month and at the end of the month it resets. You're able to see what you're spending this month and last. You don't get asked on what. it's simply a running total.
 
 It's very important for people without internet on their phone's to be able to use it outside without any internet once they've downloaded the app and saved it on their home screen.
